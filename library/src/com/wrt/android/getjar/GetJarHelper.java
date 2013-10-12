@@ -36,11 +36,13 @@ public class GetJarHelper {
 
     private String mAppToken;
 
+    private String mDeveloperPublicKey;
+
     private UserAuth mUserAuth;
 
     private ConcurrentHashMap<String, CopyOnWriteArrayList<PurchaseProductListener>> mListeners = new ConcurrentHashMap<String, CopyOnWriteArrayList<PurchaseProductListener>>();
 
-    public GetJarHelper(Context context, String appToken) {
+    public GetJarHelper(Context context, String appToken, String developerPublicKey) {
         super();
         if (context == null) {
             throw new IllegalArgumentException("context can't be null");
@@ -50,6 +52,7 @@ public class GetJarHelper {
         }
         mContext = context;
         mAppToken = appToken;
+        mDeveloperPublicKey = developerPublicKey;
         initRewardsReceiver();
         initGetJarContext(context);
         initLocation();
@@ -97,7 +100,7 @@ public class GetJarHelper {
     }
     private void initGetJarContext(Context context) {
         try {
-            mGetJarContext =  GetJarManager.createContext(mAppToken, context, mRewardsReceiver);
+            mGetJarContext =  GetJarManager.createContext(mAppToken, mDeveloperPublicKey, context, mRewardsReceiver);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
